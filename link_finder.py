@@ -16,12 +16,11 @@ class internals():
         print(base)
         for link in soup.find_all('a'):
             if link.attrs['href'] is not None:
-                if link.attrs['href'] not in links:
-                    link_base = "{0.scheme}://{0.netloc}/".format(urlsplit(link.attrs['href']))
-                    if link_base == base:
-                        url = link.attrs['href']
-                        self.links.add(url)
-                        print(url)
+                link_base = "{0.scheme}://{0.netloc}/".format(urlsplit(link.attrs['href']))
+                if link_base == base:
+                    url = link.attrs['href']
+                    self.links.add(url)
+                    print(url)
 
 
     def page_links(self):

@@ -24,6 +24,7 @@ class Spider:
         Spider.queue_file = Spider.project_name + '/queue.txt'
         Spider.crawled_file = Spider.project_name + '/crawled.txt'
         Spider.data_file = Spider.project_name + '/data.csv'
+        Spider.custom_file = Spider.project_name + '/custom.csv'
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
@@ -45,35 +46,36 @@ class Spider:
             status = requests.get(page_url).status_code
             html = response.text
             data_file = Spider.data_file
-            Spider.add_links_to_queue(Spider.gather_links(page_url, html, status,data_file))
-            Spider.gather_meta(page_url, html, status,data_file)
+            response_header = response.headers['Content-Type']
+            Spider.add_links_to_queue(Spider.gather_links(page_url, html, status, data_file, response_header))
+            Spider.gather_meta(page_url, html, status,data_file,response_header)
             Spider.queue.remove(page_url)
             Spider.crawled.add(page_url)
             Spider.update_files()
 
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
-    def gather_meta(page_url,html,status,data_file):
+    def gather_meta(page_url,html,status,data_file, response_header):
         try:
             base = Spider.base_url
-            finder = internals(html, base,status,page_url,data_file)
+            finder = internals(html, base,status,page_url,data_file,response_header)
         except Exception as e:
             print(str(e))
             return set()
-        data = finder.meta_data(html,base,status,page_url,data_file)
+        data = finder.meta_data(html,base,status,page_url,data_file,response_header)
         print(data)
         #return finder.page_links()
 
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
-    def gather_links(page_url,html,status,data_file):
+    def gather_links(page_url,html,status,data_file,response_header):
         try:
             #response = requests.get(page_url)
             #status = requests.get(page_url).status_code
             #html = response.text
             #print(soup)
             base = Spider.base_url
-            finder = internals(html,base,status,page_url,data_file)
+            finder = internals(html,base,status,page_url,data_file,response_header)
         except Exception as e:
             print(str(e))
             return set()

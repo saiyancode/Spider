@@ -1,25 +1,29 @@
 from html.parser import HTMLParser
 from urllib import parse
+from bs4 import BeautifulSoup
+import re
+from urllib.parse import urlsplit
 
+class internals():
 
-class LinkFinder(HTMLParser):
-
-    def __init__(self, base_url, page_url):
+    def __init__(self, html,base):
         super().__init__()
-        self.base_url = base_url
-        self.page_url = page_url
+        self.base_url = base
+        self.html = html
         self.links = set()
+        soup = BeautifulSoup(html, 'html.parser')
+        #print(soup)
+        print(base)
+        links = []
+        for link in soup.find_all('a'):
+            if link.attrs['href'] is not None:
+                if link.attrs['href'] not in links:
+                    link_base = "{0.scheme}://{0.netloc}/".format(urlsplit(link.attrs['href']))
+                    if link_base == base:
+                        url = link.attrs['href']
+                        self.links.add(url)
+                        print(url)
 
-    # When we call HTMLParser feed() this function is called when it encounters an opening tag <a>
-    def handle_starttag(self, tag, attrs):
-        if tag == 'a':
-            for (attribute, value) in attrs:
-                if attribute == 'href':
-                    url = parse.urljoin(self.base_url, value)
-                    self.links.add(url)
 
     def page_links(self):
         return self.links
-
-    def error(self, message):
-        pass

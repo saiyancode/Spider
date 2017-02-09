@@ -1,8 +1,9 @@
 from urllib.request import urlopen
-from link_finder import LinkFinder
 from domain import *
 from general import *
-
+from bs4 import BeautifulSoup
+import requests
+from link_finder import internals
 
 class Spider:
 
@@ -45,17 +46,17 @@ class Spider:
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
-        html_string = ''
         try:
-            response = urlopen(page_url)
-            if 'text/html' in response.getheader('Content-Type'):
-                html_bytes = response.read()
-                html_string = html_bytes.decode("utf-8")
-            finder = LinkFinder(Spider.base_url, page_url)
-            finder.feed(html_string)
+            response = requests.get(page_url)
+            status = requests.get(page_url).status_code
+            html = response.text
+            #print(soup)
+            base = Spider.base_url
+            finder = internals(html,base)
         except Exception as e:
             print(str(e))
             return set()
+        print(finder.page_links())
         return finder.page_links()
 
     # Saves queue data to project files

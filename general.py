@@ -12,10 +12,13 @@ def create_project_dir(directory):
 def create_data_files(project_name, base_url):
     queue = os.path.join(project_name , 'queue.txt')
     crawled = os.path.join(project_name,"crawled.txt")
+    data= os.path.join(project_name, "data.csv")
     if not os.path.isfile(queue):
         write_file(queue, base_url)
     if not os.path.isfile(crawled):
         write_file(crawled, '')
+    if not os.path.isfile(data):
+        write_file(data, '')
 
 
 # Create a new file
@@ -26,6 +29,11 @@ def write_file(path, data):
 
 # Add data onto an existing file
 def append_to_file(path, data):
+    with open(path, 'a') as file:
+        file.write(data + '\n')
+
+# Add data onto an existing file
+def write_to_data(path, data):
     with open(path, 'a') as file:
         file.write(data + '\n')
 

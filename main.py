@@ -4,11 +4,12 @@ from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'viper-seo22222222'
-HOMEPAGE = 'http://www.theluxetravel.com/'
+PROJECT_NAME = 'testd'
+HOMEPAGE = 'http://www.canon.co.uk/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
 QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
+DATA_FILE = PROJECT_NAME + '/data.csv'
 NUMBER_OF_THREADS = 8
 queue = Queue()
 Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)

@@ -14,7 +14,6 @@ class internals():
         soup = BeautifulSoup(html, 'html.parser')
         #print(soup)
         print(base)
-        links = []
         for link in soup.find_all('a'):
             if link.attrs['href'] is not None:
                 if link.attrs['href'] not in links:

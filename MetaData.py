@@ -64,42 +64,7 @@ class Chains:
         except:
             pass
 
-class Hreflang:
-
-    def __init__(self,i):
-        response = requests.get(i)
-        soup = BeautifulSoup(response.text, 'html')
-        href_langs = soup.find_all('link', attrs={'rel': 'alternate'}, hreflang=True)
-        href_urls = []
-        href_geos = []
-        for href in href_langs:
-            href_url = href['href']
-            href_geo = href['hreflang']
-            href_urls.append(href_url)
-            href_geos.append(href_geo)
-
-        self.href_urls = href_urls
-        self.href_geos = href_geos
-        self.url = i
-
-        for i in self.href_urls:
-            response = requests.get(i)
-            soup = BeautifulSoup(response.text, 'html')
-            href_langs = soup.find_all('link', attrs={'rel': 'alternate'}, hreflang=True)
-            recip_urls = []
-            recip_geos = []
-            for href in href_langs:
-                href_url = href['href']
-                href_geo = href['hreflang']
-                recip_urls.append(href_url)
-                recip_geos.append(href_geo)
-
-
 # Google Rankings Script
-
-
-
-
 #c = GoogleRanking(keyword,country,base_url,query)
 #d = c.__dict__['results']
 #d = GoogleRanking.client_ranking()

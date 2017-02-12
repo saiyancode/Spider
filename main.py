@@ -10,7 +10,7 @@ DOMAIN_NAME = get_domain_name(HOMEPAGE)
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 DATA_FILE = PROJECT_NAME + '/data.csv'
 CUSTOM = PROJECT_NAME + '/custom.csv'
-SPIDER_TYPE = 'list'
+SPIDER_TYPE = 'crawl'
 NUMBER_OF_THREADS = 4
 queue = Queue()
 
@@ -50,7 +50,7 @@ def create_jobs():
 def crawl():
     queued_links = file_to_set(QUEUE_FILE)
     print(len(queued_links))
-    if len(queued_links) > 1:
+    if len(queued_links) > 0:
         print(str(len(queued_links)) + ' links in the queue')
         create_jobs()
 

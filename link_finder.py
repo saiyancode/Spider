@@ -77,3 +77,30 @@ class internals():
             self.robots))
         return self.meta_title,self.status_code
 
+class externals():
+
+    def __init__(self, html,base,status,page_url,data_file,response_header):
+        super().__init__()
+        self.base_url = base
+        self.html = html
+        self.links = set()
+        soup = BeautifulSoup(html, 'html.parser')
+        print(base)
+        for link in soup.find_all('a'):
+            try:
+                # IF absolute links are used in the page use this
+                if link.attrs['href'] is not None:
+                    link_base = "{0.scheme}://{0.netloc}/".format(urlsplit(link.attrs['href']))
+                    if link_base == ':///':
+                        continue
+                    elif link_base != base:
+                        url = link.attrs['href']
+                        self.links.add(url)
+            except:
+                continue
+
+
+    def page_outlinks(self):
+        return self.links
+
+

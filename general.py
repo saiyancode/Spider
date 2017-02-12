@@ -12,7 +12,8 @@ def create_project_dir(directory):
 def create_data_files(project_name, base_url,spider_type):
     queue = os.path.join(project_name , 'queue.txt')
     crawled = os.path.join(project_name,"crawled.txt")
-    data= os.path.join(project_name, "data.csv")
+    data = os.path.join(project_name, "data.csv")
+    external = os.path.join(project_name, "external.txt")
     if not os.path.isfile(queue) and spider_type =='crawl':
         write_file(queue, base_url)
     if not os.path.isfile(queue) and spider_type =='list':
@@ -21,6 +22,8 @@ def create_data_files(project_name, base_url,spider_type):
         write_file(crawled, '')
     if not os.path.isfile(data):
         write_file(data, '')
+    if not os.path.isfile(external):
+        write_file(external, '')
 
 
 # Create a new file

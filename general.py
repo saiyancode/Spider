@@ -9,12 +9,14 @@ def create_project_dir(directory):
 
 
 # Create queue and crawled files (if not created)
-def create_data_files(project_name, base_url):
+def create_data_files(project_name, base_url,spider_type):
     queue = os.path.join(project_name , 'queue.txt')
     crawled = os.path.join(project_name,"crawled.txt")
     data= os.path.join(project_name, "data.csv")
-    if not os.path.isfile(queue):
+    if not os.path.isfile(queue) and spider_type =='crawl':
         write_file(queue, base_url)
+    if not os.path.isfile(queue) and spider_type =='list':
+        write_file(queue, '')
     if not os.path.isfile(crawled):
         write_file(crawled, '')
     if not os.path.isfile(data):

@@ -4,17 +4,23 @@ from spider import Spider
 from domain import *
 from general import *
 
-PROJECT_NAME = 'testd'
-HOMEPAGE = 'http://www.canon.co.uk/'
+PROJECT_NAME = 'testsdd'
+HOMEPAGE = 'http://www.theluxetravel.com/'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
-QUEUE_FILE = PROJECT_NAME + '/queue.txt'
 CRAWLED_FILE = PROJECT_NAME + '/crawled.txt'
 DATA_FILE = PROJECT_NAME + '/data.csv'
 CUSTOM = PROJECT_NAME + '/custom.csv'
-NUMBER_OF_THREADS = 8
+SPIDER_TYPE = 'list'
+NUMBER_OF_THREADS = 4
 queue = Queue()
-Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME)
 
+#List or crawl queue
+if SPIDER_TYPE == 'crawl':
+    QUEUE_FILE = PROJECT_NAME + '/queue.txt'
+else:
+    QUEUE_FILE = 'urls.txt'
+
+Spider(PROJECT_NAME, HOMEPAGE, DOMAIN_NAME, SPIDER_TYPE,QUEUE_FILE)
 
 # Create worker threads (will die when main exits)
 def create_workers():
@@ -43,9 +49,11 @@ def create_jobs():
 # Check if there are items in the queue, if so crawl them
 def crawl():
     queued_links = file_to_set(QUEUE_FILE)
-    if len(queued_links) > 0:
+    print(len(queued_links))
+    if len(queued_links) > 1:
         print(str(len(queued_links)) + ' links in the queue')
         create_jobs()
+
 
 
 create_workers()
